@@ -1,1 +1,84 @@
+<!DOCTYPE html>
+<html>
 
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <title>Bracket Removal Tool</title>
+  <link href="style.css" rel="stylesheet" type="text/css" />
+</head>
+
+<body>
+
+  <h1>Ocean Bracket Removal Tool</h1>
+  <div class="row">
+    <div class="column">
+      <textarea id="scriptInput" placeholder="Paste script here"></textarea>
+    </div>
+    <div class="column">
+      <div id="scriptOutput" class="output"></div>
+    </div>
+  </div>
+  <button id="processButton">Remove Brackets</button>
+
+
+  <script>
+    //Gets information from the page
+    const scriptInput = document.getElementById('scriptInput');
+    const processButton = document.getElementById('processButton');
+    const scriptOutput = document.getElementById('scriptOutput');
+
+    //When button is clicked, run assigned function
+    processButton.addEventListener('click', processTable);
+
+    function processTable() {
+      const script = scriptInput.value;
+
+      //if script is empty, asks for input
+      if (script === "") {
+        scriptOutput.textContent = "Please enter a script.";
+        return;
+      }
+
+      //separates each line of the script into an array
+      const rows = script.split('\n');
+      const column = document.createElement('table');
+
+      rows.forEach(row => {
+        const tableRow = document.createElement('tr');
+        if ((row.replace(/\s/g, '') != "") && (removeBrackets(row).replace(/\s/g, '') != "")) {
+          if (row.includes("[") || row.includes("]")) {
+            tableRow.textContent = removeBrackets(row);
+          }
+          else tableRow.textContent = row;
+          column.append(tableRow);
+        }
+      });
+      scriptOutput.innerHTML = '';
+      scriptOutput.appendChild(column);
+    }
+
+    function removeBrackets(str) {
+      let result = '';
+      let openBracketCount = 0;
+
+      for (let i = 0; i < str.length; i++) {
+        const char = str[i];
+        if (char === '[') {
+          openBracketCount++;
+        } else if (char === ']') {
+          openBracketCount--;
+          if (openBracketCount < 0) {
+            result = '';
+            openBracketCount = 0;
+          }
+        } else if (openBracketCount === 0) {
+          // If we are not inside brackets, add the character to the result string
+          result += char;
+        }
+      }
+      return result;
+    }
+  </script>
+</body>
+</html>
