@@ -79,7 +79,12 @@
     //   }
     //  return result;
 
-        const regex = /\[[\s\S]*?\]/g
+        let str = textStr.replace(/[^\x00-\x7F]/g, "");
+        const regex = /\\[[^\\[\\]]*?\\]/g;
+        while (pattern.test(str)) {
+            pattern.lastIndex = 0;
+            cleanedStr = cleanedStr.replace(pattern, '');
+        }
         return str.replace(regex, '');
     }
   </script>
