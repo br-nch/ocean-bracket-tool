@@ -79,13 +79,13 @@
     //   }
     //  return result;
 
-        let str = textStr.replace(/[^\x00-\x7F]/g, "");
+        let cStr = textStr.replace(/[^\x00-\x7F]/g, "");
         const regex = /\\[[^\\[\\]]*?\\]/g;
-        while (pattern.test(str)) {
+        while (pattern.test(cStr)) {
             pattern.lastIndex = 0;
-            cleanedStr = cleanedStr.replace(pattern, '');
+            cStr = cStr.replace(pattern, '');
         }
-        return str.replace(regex, '');
+        return cStr.replace(regex, '');
     }
   </script>
 </body>
